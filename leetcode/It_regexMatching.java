@@ -25,3 +25,9 @@ class Solution {
         return dp[s.length()][p.length()];
     }
 }
+/*
+解題思路：
+這題是經典的 Regular Expression Matching。
+使用 DP，dp[i][j] 表示 s[0..i-1] 是否與 p[0..j-1] 匹配。
+關鍵處理 '*' 的邏輯，因為它可以代表前一個字元出現 0 次或多次。
+*/
