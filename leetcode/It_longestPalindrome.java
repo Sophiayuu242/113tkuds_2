@@ -3,23 +3,29 @@ class Solution {
         if (s.length() < 2) return s;
         int start = 0, maxLen = 1;
         for (int i = 0; i < s.length(); i++) {
-            int l = i, r = i;
-            while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
-                if (r - l + 1 > maxLen) {
-                    start = l;
-                    maxLen = r - l + 1;
-                }
-                l--; r++;
-            }
-            l = i; r = i + 1;
-            while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
-                if (r - l + 1 > maxLen) {
-                    start = l;
-                    maxLen = r - l + 1;
-                }
-                l--; r++;
+            int len1 = expand(s, i, i);   // 單中心
+            int len2 = expand(s, i, i + 1); // 雙中心
+            int len = Math.max(len1, len2);
+            if (len > maxLen) {
+                start = i - (len - 1) / 2;
+                maxLen = len;
             }
         }
         return s.substring(start, start + maxLen);
     }
+
+    private int expand(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--; right++;
+        }
+        return right - left - 1;
+    }
 }
+
+/*
+解題思路：
+使用中心擴展法。
+對每個位置當作回文中心，分別考慮單字元和雙字元中心。
+向外擴展並更新最長回文。
+時間 O(n^2)，空間 O(1)。
+*/
